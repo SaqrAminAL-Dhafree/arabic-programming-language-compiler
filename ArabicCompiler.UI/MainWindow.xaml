@@ -1,0 +1,50 @@
+<Window x:Class="ArabicCompiler.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Title="ArabicCompiler IDE - Prototype" Height="700" Width="1000">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+        <!-- Removed duplicate Grid.RowDefinitions (was defined above) -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Row="1">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="عرض مراحل الترجمة">
+                    <MenuItem Header="عرض التوكنز (Lexer)" Click="Menu_ShowTokens_Click" />
+                    <MenuItem Header="عرض شجرة التحليل (Parser)" Click="Menu_ShowParseTree_Click" />
+                    <MenuItem Header="عرض جدول الرموز (Semantic)" Click="Menu_ShowSymbolTable_Click" />
+                    <MenuItem Header="عرض شيفرة IL (Generator)" Click="Menu_ShowIL_Click" />
+                    <MenuItem Header="توليد الكود (CodeGen)" Click="Menu_GenerateCode_Click" />
+                    <MenuItem Header="توليد الشفرة البسيطة" Click="Menu_GenerateSimpleCode_Click" />
+                </MenuItem>
+            </Menu>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,6">
+                <Button Name="BtnNew" Click="BtnNew_Click" Margin="0,0,6,0">New</Button>
+                <Button Name="BtnOpen" Click="BtnOpen_Click" Margin="0,0,6,0">Open</Button>
+                <Button Name="BtnSave" Click="BtnSave_Click" Margin="0,0,6,0">Save</Button>
+                <Button Name="BtnRun" Click="BtnRun_Click" Margin="10,0,6,0">Run</Button>
+                <Button Name="BtnTokens" Click="BtnTokens_Click" Margin="6,0,0,0">Tokens</Button>
+                <Button Name="BtnParseTree" Click="BtnParseTree_Click" Margin="6,0,0,0">Parse Tree</Button>
+                <Button Name="BtnCodeGen" Click="Menu_GenerateCode_Click" Margin="6,0,0,0">CodeGen</Button>
+                <Button Name="BtnSimpleCode" Click="Menu_GenerateSimpleCode_Click" Margin="6,0,0,0">Simple Code</Button>
+            </StackPanel>
+            <avalonEdit:TextEditor Name="Editor" ShowLineNumbers="True" FontFamily="Consolas" FontSize="14" SyntaxHighlighting="C#"/>
+        </DockPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Output:" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBox Name="OutputBox" Grid.Row="1" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,18 @@
+<Window x:Class="ArabicCompiler.UI.ParseTreeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Parse Tree Viewer" Height="400" Width="600">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,0,6">
+            <Button Name="BtnSemantic" Click="BtnSemantic_Click" Margin="0,0,6,0">عرض السيمانتك</Button>
+            <Button Name="BtnCopy" Click="BtnCopy_Click" Margin="0,0,6,0">Copy</Button>
+            <Button Name="BtnSave" Click="BtnSave_Click">Save</Button>
+        </StackPanel>
+
+        <TreeView Name="ParseTreeTreeView" Grid.Row="1" FontFamily="Consolas" FontSize="13" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+    </Grid>
+</Window>

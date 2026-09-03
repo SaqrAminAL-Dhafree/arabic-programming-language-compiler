@@ -1,381 +1,442 @@
 # Arabic Programming Language Compiler
 
-A compiler implementation for a custom **Arabic programming language**, built with **C# and .NET 6**, using **ANTLR 4** for grammar-driven lexical and syntactic analysis.
+A custom Arabic programming language and compiler built with **C#**, **.NET 6**, and **ANTLR4**.
 
-The project explores the core stages of compiler construction, including parsing, semantic analysis, symbol-table management, and code generation, with a dedicated desktop interface for interacting with the compiler and inspecting its internal translation stages.
+The project demonstrates the design and implementation of a programming language with Arabic keywords, data types, control structures, procedures, collections, records, semantic analysis, symbol-table management, and dynamic CIL code generation for execution on the .NET runtime.
 
 ---
 
 ## Overview
 
-**Arabic Programming Language Compiler** is a compiler project designed to process a programming language whose syntax and keywords are expressed in Arabic.
+This project was developed to explore the internal architecture of programming languages and compilers by designing a custom programming language whose syntax is based on the Arabic language.
 
-The language supports structured programming concepts including:
+Programs are written using Arabic keywords and identifiers, then processed through a compiler pipeline that transforms the source code into executable **CIL/IL instructions**.
 
-* Variables and constants
-* Custom data types
-* Lists and records
-* Procedures
-* Parameters passed by value or by reference
-* Conditional statements
-* Loops
-* Arithmetic and logical expressions
-* Input and output operations
-* Variable indexing and record-field access
-* Arabic identifiers
-
-The project demonstrates how the different stages of a compiler can work together to transform source code into a structured representation and generated output.
-
----
-
-## Compiler Pipeline
-
-The project is organized around the major stages of compiler processing:
+The compiler performs several major stages:
 
 ```text
 Arabic Source Code
-        │
-        ▼
-     Lexical Analysis
-        │
-        ▼
-   Syntax / Parsing
-        │
-        ▼
-   Parse Tree / AST
-        │
-        ▼
- Semantic Analysis
-        │
-        ▼
-   Symbol Table
-        │
-        ▼
-  Code Generation
-        │
-        ▼
- Generated Output
+        ↓
+ANTLR Lexer
+        ↓
+Tokens
+        ↓
+ANTLR Parser
+        ↓
+Parse Tree
+        ↓
+Semantic Analysis
+        ↓
+Symbol Table
+        ↓
+CIL / IL Code Generation
+        ↓
+.NET Runtime / JIT
+        ↓
+Program Execution
 ```
 
-This architecture separates the responsibilities of each stage and provides a clear foundation for extending the language and compiler.
+This architecture provides a practical implementation of the fundamental stages involved in compiler construction.
 
 ---
 
-## Language Features
+## Language Example
 
-### Declarations
-
-The language supports Arabic declarations for:
-
-* Constants
-* Variables
-* User-defined types
-* Procedures
+A program can be written using Arabic keywords and identifiers.
 
 Example:
 
 ```text
-برنامج example؛
-...
+برنامج مثال;
+
+متغير
+    العدد : صحيح;
+
+ابدأ
+    العدد := 10;
+    اطبع العدد;
 .
 ```
 
-### Data Types
-
-Built-in data types include:
-
-```text
-صحيح
-حقيقي
-منطقي
-حرفي
-خيط_رمزي
-```
-
-The language also supports user-defined types.
-
-### Composite Types
-
-The grammar supports:
-
-* Lists
-* Records
-* Structured fields
-* Indexed access
-* Record-field access
-
-### Procedures
-
-Procedures support formal parameters with:
-
-```text
-بالقيمة
-بالمرجع
-```
-
-allowing parameters to be passed by value or by reference.
-
-### Control Flow
-
-The language includes:
-
-* Conditional statements
-* `اذا / فان / والا`
-* `كرر`
-* `طالما`
-* `اعد ... حتى`
-
-### Expressions
-
-The expression grammar supports:
-
-* Arithmetic operations
-* Relational operations
-* Logical operations
-* Boolean expressions
-* Unary signs
-* Variable access
-* Indexed access
-* Record-field access
-
-### Input & Output
-
-The language provides Arabic commands for:
-
-```text
-اقرا
-اطبع
-```
-
-for input and output operations.
-
-### Arabic Identifiers
-
-Identifiers are designed to support Arabic letters directly, allowing source programs to be written using Arabic-oriented naming conventions.
+The language supports Arabic identifiers and keywords, allowing source code to be written naturally using Arabic syntax.
 
 ---
 
-## Compiler Components
+## Key Features
 
-### Grammar & Parsing
+### Language Design
 
-The language grammar is defined using **ANTLR 4** in:
+* Arabic programming keywords
+* Arabic identifiers
+* Variables
+* Constants
+* Primitive data types
+* Lists
+* Records
+* Procedures
+* Parameters passed by value
+* Parameters passed by reference
+* Arithmetic expressions
+* Logical expressions
+* Relational expressions
+* Assignments
+* Conditional statements
+* Repetition and loop constructs
+* Input and output operations
+* Nested instruction blocks
+
+### Compiler Pipeline
+
+* Lexical analysis using ANTLR4
+* Syntax analysis using an ANTLR-generated parser
+* Parse tree generation
+* Semantic analysis
+* Symbol table management
+* Type and symbol validation
+* Custom visitor-based compiler logic
+* Dynamic CIL/IL code generation
+* Runtime execution through .NET
+
+### Developer Interface
+
+The project also includes a WPF-based graphical interface providing tools for inspecting different compiler stages, including:
+
+* Tokens
+* Parse Tree
+* Symbol Table
+* Translation / Compilation Stages
+
+---
+
+## Compiler Architecture
+
+The compiler is organized into several major stages.
+
+### 1. Source Code
+
+The developer writes a program using the custom Arabic programming language.
 
 ```text
-Expr.g4
+برنامج ...
 ```
 
-The grammar contains both:
+The source code is provided to the compiler as input.
 
-* Parser rules
-* Lexer rules
+---
 
-ANTLR-generated lexer and parser components are used to process the source language.
+### 2. Lexical Analysis
 
-### Semantic Analysis
+The language grammar is defined using **ANTLR4**.
+
+ANTLR analyzes the source code and converts it into a stream of tokens.
+
+For example, Arabic keywords such as:
+
+```text
+برنامج
+متغير
+صحيح
+اذا
+فان
+والا
+اطبع
+اقرا
+```
+
+are recognized according to the language grammar.
+
+---
+
+### 3. Syntax Analysis
+
+The generated ANTLR parser analyzes the token stream according to the grammar defined in:
+
+```text
+ArabicCompiler/Expr.g4
+```
+
+The parser constructs a **Parse Tree** representing the syntactic structure of the program.
+
+---
+
+### 4. Semantic Analysis
+
+After syntactic analysis, the compiler performs semantic processing using custom visitor logic.
+
+This stage is responsible for analyzing the meaning and validity of program constructs beyond grammar matching.
+
+The project contains a dedicated:
+
+```text
+SemanticAnalyzerVisitor
+```
+
+for this stage.
+
+---
+
+### 5. Symbol Table
+
+The compiler maintains information about identifiers through a custom symbol-table implementation.
 
 The project includes:
-
-```text
-SemanticAnalyzerVisitor.cs
-```
-
-which provides the semantic-analysis stage of the compiler.
-
-### Symbol Table
-
-Symbol management is implemented through:
 
 ```text
 Symbol.cs
 SymbolTable.cs
 ```
 
-These components provide the foundation for tracking symbols and their associated information during compilation.
-
-### Code Generation
-
-Code generation is implemented through:
-
-```text
-CodeGenerator.cs
-```
-
-and works as part of the compiler pipeline to produce generated output from the processed source program.
-
-### Compiler Service
-
-The compiler workflow is coordinated through:
-
-```text
-CompilerService.cs
-```
-
-providing a central service layer for compiler operations.
+The symbol table is used to maintain information about declared program elements during compilation.
 
 ---
 
-## Desktop User Interface
+### 6. Code Generation
 
-The project also contains a dedicated desktop UI:
+After analysis, the compiler generates **CIL (Common Intermediate Language)** instructions dynamically using .NET facilities such as:
 
 ```text
-ArabicCompiler.UI
+System.Reflection.Emit
 ```
 
-The interface includes dedicated views for inspecting compiler information, including:
+The generated instructions can include operations for:
 
-* Tokens
-* Parse Tree
-* Symbol Table
-* Translation Stages
+* Loading values
+* Arithmetic operations
+* Logical operations
+* Comparisons
+* Branching
+* Method calls
+* Returning from methods
+* Console output
 
-This makes the compiler easier to demonstrate, inspect, and understand during development and testing.
+---
+
+### 7. .NET Runtime Execution
+
+The generated CIL is placed into a dynamic .NET assembly.
+
+The program is then executed through the .NET runtime.
+
+The .NET runtime is responsible for the subsequent execution process, including JIT compilation of the generated IL into machine code when required.
+
+Therefore, the compiler's responsibility is to generate CIL/IL, while the .NET runtime and JIT handle the lower-level execution.
 
 ---
 
 ## Technology Stack
 
-| Technology                          | Purpose                               |
-| ----------------------------------- | ------------------------------------- |
-| C#                                  | Core implementation language          |
-| .NET 6                              | Application framework                 |
-| ANTLR 4.13.1                        | Lexer and parser generation           |
-| WPF / XAML                          | Desktop user interface                |
-| Lokad.ILPack                        | IL-related packaging support          |
-| System.Reflection.Emit.ILGeneration | IL generation support                 |
-| Visual Studio                       | Development environment               |
-| Git & GitHub                        | Version control and source management |
+| Technology      | Purpose                             |
+| --------------- | ----------------------------------- |
+| C#              | Compiler implementation             |
+| .NET 6          | Runtime and application platform    |
+| ANTLR4          | Lexer and parser generation         |
+| Reflection.Emit | Dynamic CIL/IL generation           |
+| Lokad.ILPack    | .NET assembly-related functionality |
+| WPF             | Compiler graphical interface        |
+| Visual Studio   | Development environment             |
 
 ---
 
 ## Project Structure
 
 ```text
-COMPILER/
+COMPILER
 │
-├── ArabicCompiler/
-│   ├── .antlr/
-│   ├── Generated/
-│   ├── examable/
+├── ArabicCompiler
+│   ├── .antlr
+│   ├── Generated
 │   ├── Expr.g4
 │   ├── ArabicVisitor.cs
 │   ├── CodeGenerator.cs
 │   ├── CompilerService.cs
-│   ├── Program.cs
 │   ├── SemanticAnalyzerVisitor.cs
 │   ├── Symbol.cs
 │   ├── SymbolTable.cs
-│   └── ArabicCompiler.csproj
+│   ├── Program.cs
+│   └── ...
 │
-├── ArabicCompiler.UI/
-│   ├── App.xaml
+├── ArabicCompiler.UI
 │   ├── MainWindow.xaml
+│   ├── MainWindow.xaml.cs
+│   ├── TokensWindow.xaml
 │   ├── ParseTreeWindow.xaml
 │   ├── SymbolTableWindow.xaml
-│   ├── TokensWindow.xaml
 │   ├── TranslationStagesWindow.xaml
-│   └── ArabicCompiler.UI.csproj
-│
-├── .vscode/
+│   └── ...
 │
 ├── COMPILER.sln
-└── .gitignore
+└── README.md
 ```
 
 ---
 
-## Example Programs
+## Grammar
 
-The repository includes multiple `.arb` example programs covering different language constructs, including:
+The language grammar is defined in:
 
 ```text
-example01_numbers.arb
-example02_strings.arb
-example03_arithmetic.arb
-example04_logical.arb
-example05_conditionals.arb
-example06_loops.arb
-example07_assignment.arb
-example08_final.arb
+ArabicCompiler/Expr.g4
 ```
 
-These examples provide practical test cases for the language grammar and compiler pipeline.
+The grammar defines the lexical and syntactic rules of the Arabic programming language, including:
+
+* Program structure
+* Declarations
+* Data types
+* Procedures
+* Lists
+* Records
+* Expressions
+* Assignments
+* Conditions
+* Loops
+* Input
+* Output
+* Arabic identifiers
+* Operators
+* Literals
+* Comments
+
+Arabic identifiers are supported through the language lexer rules, allowing identifiers to be written using Arabic characters.
 
 ---
 
-## Getting Started
+## Compiler Components
 
-### Prerequisites
+The main compiler components include:
 
-Install:
+### `Expr.g4`
+
+Defines the grammar and lexical rules of the Arabic programming language.
+
+### `ArabicVisitor.cs`
+
+Provides visitor-based processing of the generated parse-tree structures.
+
+### `SemanticAnalyzerVisitor.cs`
+
+Performs semantic analysis over the parsed program.
+
+### `Symbol.cs`
+
+Represents symbols maintained by the compiler.
+
+### `SymbolTable.cs`
+
+Provides symbol-table functionality for tracking declarations and identifiers.
+
+### `CodeGenerator.cs`
+
+Generates dynamic CIL/IL instructions using .NET Reflection.Emit.
+
+### `CompilerService.cs`
+
+Provides compiler-related service and processing logic.
+
+### `ArabicCompiler.UI`
+
+Provides the graphical interface for interacting with and inspecting compiler stages.
+
+---
+
+## Running the Project
+
+### Requirements
 
 * .NET 6 SDK
-* Visual Studio 2022
-* Git
+* Visual Studio 2022 or another compatible .NET development environment
+* Windows environment for the WPF interface
 
-### Clone the Repository
+### Clone
 
 ```bash
 git clone git@github.com:SaqrAminAL-Dhafree/arabic-programming-language-compiler.git
 ```
 
-### Navigate to the Project
+### Open the Solution
 
-```bash
-cd arabic-programming-language-compiler
+Open:
+
+```text
+COMPILER.sln
 ```
 
-### Build the Solution
+in Visual Studio.
 
-```bash
-dotnet build COMPILER.sln
-```
-
-### Run the Compiler
-
-The main compiler project can be run with:
-
-```bash
-dotnet run --project ArabicCompiler/ArabicCompiler.csproj
-```
-
-The desktop UI can be opened through the `ArabicCompiler.UI` project in Visual Studio.
+Restore the NuGet packages and build the solution.
 
 ---
 
-## Design Goals
+## What This Project Demonstrates
 
-The project was developed with the following goals:
+This project demonstrates practical understanding of:
 
-* Explore compiler construction fundamentals.
-* Design a programming language using Arabic syntax.
-* Build a grammar-driven parser using ANTLR.
-* Separate syntax analysis from semantic analysis.
-* Implement symbol-table management.
-* Implement a dedicated code-generation stage.
-* Provide a visual interface for inspecting compiler stages.
-* Create a structured foundation for extending the language.
-
----
-
-## Engineering Highlights
-
-This project demonstrates practical experience with:
-
+* Programming language design
 * Compiler architecture
-* Language grammar design
-* ANTLR4
 * Lexical analysis
-* Syntax analysis
+* Parsing
+* Grammar design
 * Parse trees
-* Visitor-based processing
 * Semantic analysis
 * Symbol tables
-* Code generation
-* C# and .NET
-* WPF desktop application development
-* Structured software architecture
+* Visitor patterns
+* Intermediate language generation
+* CIL/IL instructions
+* Dynamic assembly generation
+* .NET runtime execution
+* WPF application development
+
+---
+
+## Compiler Execution Model
+
+The project does not directly generate native machine code.
+
+Instead, it generates **CIL/IL instructions** dynamically.
+
+The execution model is:
+
+```text
+Arabic Language
+      ↓
+Custom Compiler
+      ↓
+CIL / IL
+      ↓
+.NET Runtime
+      ↓
+JIT Compilation
+      ↓
+Native Machine Code
+      ↓
+Execution
+```
+
+This approach allows the custom language to use the .NET execution environment while maintaining its own language syntax, grammar, semantic analysis, and code-generation logic.
+
+---
+
+## Project Goal
+
+The primary goal of this project is to demonstrate how a programming language can be designed and processed through the major stages of a compiler.
+
+Rather than creating another conventional application, the project focuses on understanding what happens internally between writing source code and executing a program.
+
+---
+
+## Future Improvements
+
+Potential future development directions include:
+
+* More advanced type checking
+* Improved scope management
+* Expanded function and procedure support
+* Additional data structures
+* More comprehensive error reporting
+* Expanded standard library functionality
+* Additional code-generation optimizations
+* More language features
+* Improved compiler diagnostics
 
 ---
 
@@ -385,11 +446,12 @@ This project demonstrates practical experience with:
 
 Full Stack Developer | Flutter & Dart | Backend Development
 
-* LinkedIn: [https://www.linkedin.com/in/saqraldhafree](https://www.linkedin.com/in/saqraldhafree)
-* GitHub: [https://github.com/SaqrAminAL-Dhafree](https://github.com/SaqrAminAL-Dhafree)
+GitHub: [SaqrAminAL-Dhafree](https://github.com/SaqrAminAL-Dhafree)
+
+LinkedIn: [Saqr Ameen Al-Dhafree](https://linkedin.com/in/saqraldhafree)
 
 ---
 
 ## License
 
-This project is maintained as a portfolio and educational compiler-development project.
+This project is intended for educational and portfolio purposes.
